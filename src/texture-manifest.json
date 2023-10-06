@@ -1,0 +1,30 @@
+{
+  "bundles":[
+    {
+      "name":"characters",
+      "assets":[
+        {
+          "name": "protagonist",
+          "srcs":"src/assets/characters/protagonist.png"
+        },
+        {
+          "name": "advisor",
+          "srcs":"src/assets/characters/advisor.png"
+        },
+        {
+          "name": "antagonist",
+          "srcs":"src/assets/characters/antagonist.png"
+        }
+      ]
+    },
+    {
+      "name": "backgrounds",
+      "assets": [
+        {
+          "name": "world map",
+          "srcs": "src/assets/background/world_map.png"
+        }
+      ]
+    }
+  ]
+}
