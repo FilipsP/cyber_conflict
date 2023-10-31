@@ -1,7 +1,7 @@
 {
   "name": "cyber_conflict",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,6 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "pixi.js": "^7.3.0"
+    "phaser": "^3.60.0"
   }
 }

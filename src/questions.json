@@ -1,0 +1,137 @@
+[
+  {
+    "question": "1. A state discovers a critical vulnerability in another nation's power grid. They decide to:",
+    "actions": [
+      {
+        "legal": "Notify the other nation of the vulnerability.",
+        "illegal": "Exploit the vulnerability for espionage or sabotage."
+      }
+    ],
+    "explanation": {
+      "legal": "This action is legal as it promotes responsible behavior in cyberspace and reduces harm, aligning with the principles of good faith and non-aggression. Rule: Tallinn Manual 5, Rule 4.",
+      "illegal": "This action is illegal as exploiting vulnerabilities for malicious purposes violates the principles of non-aggression and could be considered a use of force. Rule: Tallinn Manual 5, Rule 4."
+    },
+    "opponent_action": {
+      "illegal": "The other nation decides to exploit vulnerabilities in the notifying state's critical infrastructure as retaliation, which is illegal under international law."
+    }
+  },
+  {
+    "question": "2. A state suspects that a foreign nation is conducting cyber espionage on its military communication systems. They decide to:",
+    "actions": [
+      {
+        "legal": "Engage in diplomatic channels to express concerns and request an investigation.",
+        "illegal": "Launch a retaliatory cyber attack on the foreign nation's critical infrastructure."
+      }
+    ],
+    "explanation": {
+      "legal": "Engaging in diplomatic channels is a legal and responsible way to address concerns and seek resolution. Rule: Tallinn Manual 11, Rule 4.",
+      "illegal": "Launching a retaliatory cyber attack on critical infrastructure is illegal as it may amount to a use of force and violates the prohibition on the use of force in international law. Rule: Tallinn Manual 13, Rule 14."
+    },
+    "opponent_action": {
+      "legal": "The foreign nation agrees to diplomatic discussions and cooperates in the investigation.",
+      "illegal": "The foreign nation increases cyber espionage efforts, which is illegal under international law."
+    }
+  },
+  {
+    "question": "3. A state has strong evidence that another state is conducting cyber attacks on its financial institutions. They decide to:",
+    "actions": [
+      {
+        "legal": "Present the evidence to an international organization for independent investigation.",
+        "illegal": "Launch a counterattack on the suspected state's financial institutions."
+      }
+    ],
+    "explanation": {
+      "legal": "Presenting the evidence to an international organization for investigation is a legal and responsible approach to address the issue, as it avoids escalation. Rule: Tallinn Manual 15, Rule 2.",
+      "illegal": "Launching a counterattack on financial institutions is illegal and escalatory, as it may amount to the use of force and violates international law. Rule: Tallinn Manual 15, Rule 2."
+    },
+    "opponent_action": {
+      "legal": "The suspected state agrees to the independent investigation.",
+      "illegal": "The suspected state increases cyber attacks on the notifying state's financial institutions, which is illegal under international law."
+    }
+  },
+  {
+    "question": "4. A state faces a persistent cyber espionage campaign from another nation. They decide to:",
+    "actions": [
+      {
+        "legal": "Implement stronger cybersecurity measures to defend against the espionage.",
+        "illegal": "Deploy offensive cyber capabilities to disrupt the other nation's critical infrastructure."
+      }
+    ],
+    "explanation": {
+      "legal": "Implementing stronger cybersecurity measures for defense is a legal and responsible action that does not violate international law. Rule: Tallinn Manual 11, Rule 4.",
+      "illegal": "Deploying offensive cyber capabilities against critical infrastructure is illegal, as it may amount to a use of force and violates international law. Rule: Tallinn Manual 13, Rule 14."
+    },
+    "opponent_action": {
+      "legal": "The other nation reduces its cyber espionage activities.",
+      "illegal": "The other nation escalates its cyber espionage activities, which is illegal under international law."
+    }
+  },
+  {
+    "question": "5. A state detects a cyber intrusion into its government systems. They decide to:",
+    "actions": [
+      {
+        "legal": "Conduct an investigation to identify the source and share the findings with relevant authorities.",
+        "illegal": "Initiate a cyber attack on the suspected source without clear attribution."
+      }
+    ],
+    "explanation": {
+      "legal": "Conducting an investigation to identify the source and sharing findings is a legal and responsible approach to cyber incidents. Rule: Tallinn Manual 7, Rule 11.",
+      "illegal": "Initiating a cyber attack without clear attribution is illegal, as it may lead to misattribution and harm innocent parties. Rule: Tallinn Manual 7, Rule 11."
+    },
+    "opponent_action": {
+      "legal": "The suspected source cooperates in the investigation.",
+      "illegal": "The suspected source increases cyber intrusions in response, which is illegal under international law."
+    }
+  },
+  {
+    "question": "6. A state encounters cyberattacks on its critical infrastructure from another state. They decide to:",
+    "actions": [
+      {
+        "legal": "File a complaint with relevant international organizations and request assistance in addressing the attacks.",
+        "illegal": "Launch a counterattack on the other state's critical infrastructure."
+      }
+    ],
+    "explanation": {
+      "legal": "Filing a complaint with international organizations and seeking assistance is a legal and responsible approach, aiming for peaceful resolution. Rule: Tallinn Manual 15, Rule 2.",
+      "illegal": "Launching a counterattack on critical infrastructure is illegal, as it may escalate the situation and violate the prohibition on the use of force. Rule: Tallinn Manual 15, Rule 2."
+    },
+    "opponent_action": {
+      "legal": "The other state cooperates with international organizations to investigate the incidents.",
+      "illegal": "The other state escalates cyberattacks on the notifying state's critical infrastructure, which is illegal under international law."
+    }
+  },
+  {
+    "question": "7. A state discovers that another state has stolen sensitive intellectual property through cyber means. They decide to:",
+    "actions": [
+      {
+        "legal": "Seek arbitration or dispute resolution through international mechanisms.",
+        "illegal": "Launch a cyber attack to destroy or steal the intellectual property of the other state."
+      }
+    ],
+    "explanation": {
+      "legal": "Seeking arbitration or dispute resolution through international mechanisms is a legal and peaceful way to address intellectual property theft. Rule: Tallinn Manual 15, Rule 2.",
+      "illegal": "Launching a cyber attack to destroy or steal intellectual property is illegal, as it may be considered a use of force and violates international law. Rule: Tallinn Manual 15, Rule 2."
+    },
+    "opponent_action": {
+      "legal": "The other state agrees to engage in arbitration or dispute resolution through international mechanisms, demonstrating a commitment to peaceful conflict resolution.",
+      "illegal": "The other state retaliates by launching a cyber attack to disrupt the notifying state's critical infrastructure, which is illegal under international law."
+    }
+  },
+  {
+    "question": "8. A state suspects that a non-state actor within another nation is conducting cyber attacks on its financial institutions. They decide to:",
+    "actions": [
+      {
+        "legal": "Engage with the other nation's government to seek cooperation in addressing the non-state actor.",
+        "illegal": "Launch a cyber attack against the non-state actor's infrastructure within the other nation without consent."
+      }
+    ],
+    "explanation": {
+      "legal": "Engaging with the other nation's government to seek cooperation is a legal and responsible approach that promotes international cooperation and avoids escalation. Rule: Tallinn Manual 15, Rule 2.",
+      "illegal": "Launching a cyber attack without consent against a non-state actor's infrastructure within another nation is illegal, as it may violate the principle of non-intervention and the prohibition on the use of force. Rule: Tallinn Manual 15, Rule 2."
+    },
+    "opponent_action": {
+      "legal": "The other nation's government cooperates with the notifying state to address the non-state actor's activities.",
+      "illegal": "The other nation's government supports or shelters the non-state actor conducting cyber attacks, which can be considered illegal under international law."
+    }
+  }
+]
