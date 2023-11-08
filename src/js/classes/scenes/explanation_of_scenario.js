@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import TextBox from "../components/textBox.js";
 
 const SUBSCENES = [
     {key:"headquarters",text:"Boring ass shit, just as expected. Do your job ffs..."},
@@ -10,28 +11,10 @@ const SUBSCENES = [
     }
 ]
 
-
-const titleStyle = {
-    fontSize: 60,
-    fontFamily: 'Share Tech Mono',
-    color: '#D9D9D9',
-}
-
-const normalTextStyle = {
-    fontSize: 25,
-    fontFamily: 'Share Tech Mono',
-    color: '#D9D9D9',
-    wordWrap: { width:  (window.innerWidth * window.devicePixelRatio-200), useAdvancedWrap: true }
-}
-
-let standardElDifference = 100
-
 export default class ExplanationOfScenario extends Phaser.Scene{
     constructor() {
         super("explanation-of-scenario");
-        this.chars = 0;
         this.currentSubscene = 0;
-        this.displayedText = "";
     }
 
     preload() {
@@ -45,41 +28,33 @@ export default class ExplanationOfScenario extends Phaser.Scene{
         const centerX = screenW/2
         const centerY = screenH/2
         this.background = this.add.image(centerX,centerY,"headquarters")
+        this.textBox = new TextBox(this,"Explanation of scenario",SUBSCENES[this.currentSubscene].text)
         this.checkResScale()
-        this.textBox = this.add.rectangle(0,0,screenW-130,230,0x21242A)
-        const title = this.add.text(-this.textBox.width*0.4,-80, "Explanation of the scenario",titleStyle)
-        this.displayedText = this.add.text(title.x, title.y+standardElDifference, "",normalTextStyle)
-        this.textContainer = this.add.container(centerX, 150,[this.textBox,title,this.displayedText]);
-        this.setTimer();
         this.input.on("pointerdown",()=>{
             console.log("tap")
-            if (this.chars < SUBSCENES[this.currentSubscene].text.length)
-            {
-                this.chars = SUBSCENES[this.currentSubscene].text.length
-                this.displayedText.setText(SUBSCENES[this.currentSubscene].text.substring(0,this.chars))
-            }
-            else
-            {
+            const hadFullText = this.textBox.handleTap();
+            if (hadFullText){
                 if (this.currentSubscene<SUBSCENES.length-1){
                     this.currentSubscene += 1
+                    this.background.destroy();
+                    this.background = this.add.image(centerX,centerY,SUBSCENES[this.currentSubscene].key)
+                    this.checkResScale()
+                    if (this.currentSubscene === 1){
+                        this.textBox.setContainerPosition("top")
+                    }
+                    else {
+                        this.textBox.setContainerPosition("bot")
+                    }
+                    this.background.setDepth(-1)
+                    this.textBox.setText(SUBSCENES[this.currentSubscene].text)
                 }
                 else {
                     this.currentSubscene = 0
                     this.scene.start('actions')
+                    this.scene.remove('explanation-of-scenario')
                 }
-                this.background.destroy();
-                this.background = this.add.image(centerX,centerY,SUBSCENES[this.currentSubscene].key)
-                this.checkResScale()
-                if (this.currentSubscene === 1){
-                    this.textContainer.y = (window.innerHeight * window.devicePixelRatio) - 150
-                }
-                else {
-                    this.textContainer.y = 150
-                }
-                this.background.setDepth(-1)
-                this.chars = 0
-                this.setTimer()
             }
+
         },this)
     }
 
@@ -99,23 +74,12 @@ export default class ExplanationOfScenario extends Phaser.Scene{
         }
         else if (window.innerWidth * window.devicePixelRatio <= 1334){
             this.background.setScale(0.69)
-            titleStyle.fontSize = 20
-            normalTextStyle.fontSize = 14
-            standardElDifference = 50
+            this.textBox.titleStyle.fontSize = 20
+            this.textBox.normalTextStyle.fontSize = 14
+            this.textBox.standardElDifference = 50
         }
     }
 
-    setTimer(){
-        clearInterval(this.timer)
-        this.timer = setInterval(()=>{
-            this.displayedText.setText(SUBSCENES[this.currentSubscene].text.substring(0,this.chars))
-            if (this.chars<SUBSCENES[this.currentSubscene].text.length){
-                this.chars++
-            }
-            else{
-                return clearInterval(this.timer)
-            }
-        },30)
-    }
+
 
 }

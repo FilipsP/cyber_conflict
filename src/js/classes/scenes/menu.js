@@ -51,7 +51,10 @@ export default class Menu extends Phaser.Scene{
         playBtn.setInteractive({ cursor: 'pointer' })
         readBtn.setInteractive({ cursor: 'pointer' })
         sufferBtn.setInteractive({ cursor: 'pointer' })
-        playBtn.on('pointerdown',()=>this.scene.start('explanation-of-scenario'))
+        playBtn.on('pointerdown',()=> {
+            this.scene.start('explanation-of-scenario')
+            this.scene.remove('menu')
+        })
         readBtn.on('pointerdown',()=>alert("Coming soon!"))
         sufferBtn.on('pointerdown',()=>alert("Coming soon!"))
 
