@@ -30,6 +30,11 @@ const normalTextStyle = {
 }
 
 let standardElDifference = 400
+let normalCardScale = 1;
+
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min + 1) + min;
+}
 
 export default class Actions extends Phaser.Scene{
     constructor() {
@@ -42,7 +47,7 @@ export default class Actions extends Phaser.Scene{
         this.tweens.add({
             targets: cardContainer,
             alpha: 1,
-            scale:0.9,
+            scale:normalCardScale-0.1,
             ease: 'quad.out',
             onComplete:()=> {
                 let isYoyoTriggered = false
@@ -50,7 +55,7 @@ export default class Actions extends Phaser.Scene{
                 this.tweens.add({
                     targets: cardContainer,
                     scaleX:0,
-                    scaleY:0.85,
+                    scaleY:normalCardScale*0.85,
                     duration: 300,
                     delay: 700,
                     yoyo:true,
@@ -72,7 +77,7 @@ export default class Actions extends Phaser.Scene{
                     onComplete:()=>{
                         this.tweens.add({
                             targets: cardContainer,
-                            scale: 1,
+                            scale: normalCardScale,
                             ease: 'sine.in',
                             delay: 300
                         })
@@ -155,7 +160,7 @@ export default class Actions extends Phaser.Scene{
                 targets: card,
                 x: centerX,
                 y: centerY,
-                scale: 1,
+                scale: normalCardScale,
                 ease: 'sine.inout',
                 onComplete: () => {
                     this.tweens.add({
@@ -180,34 +185,30 @@ export default class Actions extends Phaser.Scene{
         })
         this.input.on('gameobjectover', (pointer, gameObject) =>
         {
+            const firstAngle = getRandomNumber(-1.5,1.5)
+            const secondAngle = firstAngle*-1
             this.tweens.chain({
                 targets: gameObject.parentContainer,
                 tweens:[
                     {
+                        scale:normalCardScale,
+                        angle: 0,
+                        ease: 'expo.out',
+                        duration:0,
+                    },
+                    {
                         props:{
-                            scale:{value: 1.1},
-                            angle: {value:1,yoyo:true},
+                            scale:{value: normalCardScale*1.1},
+                            angle: {value:firstAngle,yoyo:true},
                         },
                         ease: 'sine.in',
                         duration:100,
                     },
                     {
-                        angle:-1,
+                        angle:secondAngle,
                         yoyo:true,
                         ease: 'sine.out',
                         duration:100,
-                        onComplete:()=>{
-                            {
-                                this.currentSelectionTween =  this.tweens.add({
-                                    targets: gameObject.parentContainer,
-                                    scale: 1.12,
-                                    yoyo:true,
-                                    duration:1000,
-                                    repeat:-1,
-                                    ease: 'circ.inout',
-                                })
-                            }
-                        }
                     },
                 ]
             })
@@ -215,12 +216,12 @@ export default class Actions extends Phaser.Scene{
 
         this.input.on('gameobjectout', (pointer, gameObject) =>
         {
-            this.currentSelectionTween.remove();
             this.tweens.add({
                 targets: gameObject.parentContainer,
                 scale: 1,
-                ease: 'sine.in',
-                duration:100
+                angle: 0,
+                ease: 'expo.out',
+                duration:200
             })
         });
     }
