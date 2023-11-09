@@ -1,14 +1,11 @@
 import Phaser from "phaser";
 import TextBox from "../components/textBox.js";
 import EconomyData from "../components/economyData.js";
+import gameState from "../../gameState.js";
 
 //CARD DEMO STRUCT
 
-const task =
-    {
-        title: "Advisor:",
-        body : "Our intelligence suggests that Inimicus is using 2 mobile applications (“Orange” and “Purple”) to influence the outcome of the war."
-    }
+
 /*
 const cards=
     [
@@ -26,25 +23,37 @@ const cards=
     ]
 */
 
-const cards=
-    [
-        {
-            title:"Attack “Orange”",
-            icon:"assets/objects/card/icons/troy.png",
-            body:"“Orange” is used to communicate with resistance forces in Patria, passing coded messages on military plans and targets",
-            isLegal:true,
-            economy:0,
-            security:0.1
-        },
-        {
-            title:"Attack “Purple”",
-            icon:"assets/objects/card/icons/puppet.png",
-            body:"“Purple” is used to spread propaganda among our population. We have the ability to conduct Distributed Denial of Service (DDoS) attacks against one of the applications.",
-            isLegal:false,
-            economy:-0.1,
-            security:0
+const cardEvents=[
+    {
+        task:{
+            title: "Advisor:",
+            body : "Our intelligence suggests that Inimicus is using 2 mobile applications (“Orange” and “Purple”) to influence the outcome of the war."
+            },
+        cards:
+            [{
+                title: "Attack “Orange”",
+                icon: "assets/objects/card/icons/troy.png",
+                body: "“Orange” is used to communicate with resistance forces in Patria, passing coded messages on military plans and targets",
+                isLegal: true,
+                economy: 0,
+                security: 0.1
+            },
+            {
+                title: "Attack “Purple”",
+                icon: "assets/objects/card/icons/puppet.png",
+                body: "“Purple” is used to spread propaganda among our population. We have the ability to conduct Distributed Denial of Service (DDoS) attacks against one of the applications.",
+                isLegal: false,
+                economy: -0.1,
+                security: 0
+            }],
+        adversaryAction: {
+            economy: 0,
+            security: 0,
+            isLegal: false,
+            body: "We have captured Inimicus’ agent who has infiltrated our facility and installed spyware to collect information from our military networks. The agent has been arrested and the spyware neutralised. The enemy action is within the limits of international law, according to Rule 66 on cyber espionage, which states that information gathering does not violate the laws of armed conflict. According to this rule the captured agent is not considered as a prisoner of war, but as a spy"
         }
-    ]
+    }
+]
 
 const titleStyle = {
     fontSize: 35,
@@ -61,6 +70,7 @@ const normalTextStyle = {
 
 let standardElDifference = 400
 let normalCardScale = 1;
+
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min + 1) + min;
@@ -132,15 +142,16 @@ export default class Actions extends Phaser.Scene{
         });
     }
     buildContainer(xPos,cardDataIndex){
+        const cardData = cardEvents[gameState.currentAction].cards[cardDataIndex]
         const height = window.innerHeight * window.devicePixelRatio
         const card = this.add.rectangle(0,0,580,810,0x21242A)
-        const title = this.add.text(0,-card.height*0.45 , cards[cardDataIndex].title ,titleStyle).setOrigin(0.5,0)
-        const body = this.add.text(0, card.height*0.13, cards[cardDataIndex].body ,normalTextStyle).setOrigin(0.5,0)
+        const title = this.add.text(0,-card.height*0.45 , cardData.title ,titleStyle).setOrigin(0.5,0)
+        const body = this.add.text(0, card.height*0.13, cardData.body ,normalTextStyle).setOrigin(0.5,0)
         const icon = this.add.image(0, card.y-(card.height*0.019), "icon"+cardDataIndex).setOrigin(0.5,0.75);
         const texture = this.add.image(0, 0, 'back');
         const container = this.add.container(xPos, height*0.6,[card,texture,title,icon,body])
         //Create a container for title,icon and body
-        container.result = {isLegal:cards[cardDataIndex].isLegal, economy:cards[cardDataIndex].economy, security:cards[cardDataIndex].security}
+        container.result = {isLegal:cardData.isLegal, economy:cardData.economy, security:cardData.security}
         title.name = "title"
         texture.name = "texture"
         body.name = "body"
@@ -165,14 +176,22 @@ export default class Actions extends Phaser.Scene{
                 this.tweens.add({
                     targets: this.economyData.economyBar,
                     width: this.economyData.economy += this.economyData.maxEconomy*=economyChange,
-                    ease: 'quint.inout',
-                    duration: 400,
+                    ease: 'quint.in',
+                    duration: 800,
                 })
                 this.tweens.add({
                     targets: this.economyData.securityBar,
                     width: this.economyData.security += this.economyData.maxSecurity*=securityChange,
-                    ease: 'quint.inout',
-                    duration: 400,
+                    ease: 'quint.in',
+                    duration: 800,
+                })
+                this.tweens.add({
+                    targets: this.economyData.container,
+                    delay:2000,
+                    duration:500,
+                    alpha:0,
+                    scale:5,
+                    ease: 'expo.in',
                 })
             }
         })
@@ -186,8 +205,8 @@ export default class Actions extends Phaser.Scene{
         this.load.image('coin', 'assets/objects/card/icons/coin_pile.png');
         this.load.image('fire', 'assets/objects/card/icons/fire.png');
         this.load.image('shield', 'assets/objects/card/icons/stat_shield.png');
-        for (let i = 0; i < cards.length; i++) {
-            this.load.image('icon'+i, cards[i].icon);
+        for (let i = 0; i < cardEvents[gameState.currentAction].cards.length; i++) {
+            this.load.image('icon'+i, cardEvents[[gameState.currentAction]].cards[i].icon);
         }
     }
     create(){
@@ -200,7 +219,8 @@ export default class Actions extends Phaser.Scene{
         const rightCardContainer = this.buildContainer(centerX+standardElDifference, 1)
         leftCardContainer.name  = "left"
         rightCardContainer.name  = "right"
-        this.textBox = new TextBox(this,task.title,task.body)
+        const currentTask = cardEvents[gameState.currentAction].task
+        this.textBox = new TextBox(this,currentTask.title,currentTask.body)
         this.economyData = new EconomyData(this)
         this.economyData.container.setAlpha(0)
         this.events.on('showStats', this.setEconomyDataEmitter, this);
