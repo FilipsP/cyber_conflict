@@ -1,6 +1,15 @@
 import Phaser from "phaser";
+import TextBox from "../components/textBox.js";
+import EconomyData from "../components/economyData.js";
 
 //CARD DEMO STRUCT
+
+const task =
+    {
+        title: "Advisor:",
+        body : "Our intelligence suggests that Inimicus is using 2 mobile applications (“Orange” and “Purple”) to influence the outcome of the war."
+    }
+/*
 const cards=
     [
         {
@@ -15,15 +24,36 @@ const cards=
             body:" Unleash chaos across the digital battlefield with the \"Mass Disruption\" card. When played, this card can disrupt multiple enemy systems simultaneously, causing temporary chaos and confusion among your rivals. Use it strategically to gain the upper hand or disrupt your opponents' well-laid plans"
         }
     ]
+*/
+
+const cards=
+    [
+        {
+            title:"Attack “Orange”",
+            icon:"assets/objects/card/icons/troy.png",
+            body:"“Orange” is used to communicate with resistance forces in Patria, passing coded messages on military plans and targets",
+            isLegal:true,
+            economy:0,
+            security:0.1
+        },
+        {
+            title:"Attack “Purple”",
+            icon:"assets/objects/card/icons/puppet.png",
+            body:"“Purple” is used to spread propaganda among our population. We have the ability to conduct Distributed Denial of Service (DDoS) attacks against one of the applications.",
+            isLegal:false,
+            economy:-0.1,
+            security:0
+        }
+    ]
 
 const titleStyle = {
-    fontSize: 40,
+    fontSize: 35,
     fontFamily: 'Share Tech Mono',
     color: '#D9D9D9',
 }
 
 const normalTextStyle = {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'Share Tech Mono',
     color: '#D9D9D9',
     wordWrap: { width: 400, useAdvancedWrap: true }
@@ -47,7 +77,7 @@ export default class Actions extends Phaser.Scene{
         this.tweens.add({
             targets: cardContainer,
             alpha: 1,
-            scale:normalCardScale-0.1,
+            scale:normalCardScale*0.8,
             ease: 'quad.out',
             onComplete:()=> {
                 let isYoyoTriggered = false
@@ -77,7 +107,7 @@ export default class Actions extends Phaser.Scene{
                     onComplete:()=>{
                         this.tweens.add({
                             targets: cardContainer,
-                            scale: normalCardScale,
+                            scale: normalCardScale*0.9,
                             ease: 'sine.in',
                             delay: 300
                         })
@@ -102,14 +132,15 @@ export default class Actions extends Phaser.Scene{
         });
     }
     buildContainer(xPos,cardDataIndex){
-        const centerY = (window.innerHeight * window.devicePixelRatio)/2
+        const height = window.innerHeight * window.devicePixelRatio
         const card = this.add.rectangle(0,0,580,810,0x21242A)
-        const title = this.add.text(card.x,card.y-(card.height*0.45) , cards[cardDataIndex].title ,titleStyle).setOrigin(0.5,0)
-        const body = this.add.text(card.x, card.y+(centerY*0.2), cards[cardDataIndex].body ,normalTextStyle).setOrigin(0.5,0)
-        const icon = this.add.image(card.x, card.y, "icon"+cardDataIndex).setOrigin(0.5,0.75);
-        const texture = this.add.image(card.x, card.y, 'back');
-        const container = this.add.container(xPos, centerY,[card,texture,title,icon,body])
+        const title = this.add.text(0,-card.height*0.45 , cards[cardDataIndex].title ,titleStyle).setOrigin(0.5,0)
+        const body = this.add.text(0, card.height*0.13, cards[cardDataIndex].body ,normalTextStyle).setOrigin(0.5,0)
+        const icon = this.add.image(0, card.y-(card.height*0.019), "icon"+cardDataIndex).setOrigin(0.5,0.75);
+        const texture = this.add.image(0, 0, 'back');
+        const container = this.add.container(xPos, height*0.6,[card,texture,title,icon,body])
         //Create a container for title,icon and body
+        container.result = {isLegal:cards[cardDataIndex].isLegal, economy:cards[cardDataIndex].economy, security:cards[cardDataIndex].security}
         title.name = "title"
         texture.name = "texture"
         body.name = "body"
@@ -124,23 +155,55 @@ export default class Actions extends Phaser.Scene{
         return container
     }
 
+    setEconomyDataEmitter(economyChange,securityChange){
+        this.tweens.add({
+            targets: this.economyData.container,
+            alpha: 1,
+            ease: 'sine.out',
+            duration: 500,
+            onComplete: () => {
+                this.tweens.add({
+                    targets: this.economyData.economyBar,
+                    width: this.economyData.economy += this.economyData.maxEconomy*=economyChange,
+                    ease: 'quint.inout',
+                    duration: 400,
+                })
+                this.tweens.add({
+                    targets: this.economyData.securityBar,
+                    width: this.economyData.security += this.economyData.maxSecurity*=securityChange,
+                    ease: 'quint.inout',
+                    duration: 400,
+                })
+            }
+        })
+    }
+
     preload(){
         this.load.image('headquarters', 'assets/background/headquarters.png');
         this.load.image('back', 'assets/objects/card/back.png');
         this.load.image('mystery_front', 'assets/objects/card/front_mystery.png');
         this.load.image('front', 'assets/objects/card/front_empty.png');
+        this.load.image('coin', 'assets/objects/card/icons/coin_pile.png');
+        this.load.image('fire', 'assets/objects/card/icons/fire.png');
+        this.load.image('shield', 'assets/objects/card/icons/stat_shield.png');
         for (let i = 0; i < cards.length; i++) {
             this.load.image('icon'+i, cards[i].icon);
         }
     }
     create(){
-        const centerX = (window.innerWidth * window.devicePixelRatio)/2
-        const centerY = (window.innerHeight * window.devicePixelRatio)/2
+        const width = (window.innerWidth * window.devicePixelRatio)
+        const height = (window.innerHeight * window.devicePixelRatio)
+        const centerX = width/2
+        const centerY = height/2
         this.background = this.add.image(centerX,centerY,"headquarters")
         const leftCardContainer = this.buildContainer(centerX-standardElDifference,0)
         const rightCardContainer = this.buildContainer(centerX+standardElDifference, 1)
         leftCardContainer.name  = "left"
         rightCardContainer.name  = "right"
+        this.textBox = new TextBox(this,task.title,task.body)
+        this.economyData = new EconomyData(this)
+        this.economyData.container.setAlpha(0)
+        this.events.on('showStats', this.setEconomyDataEmitter, this);
         this.checkResScale()
         //refactor name usage if more cards are needed!
         //create a list of containers and kill all but selected
@@ -149,6 +212,13 @@ export default class Actions extends Phaser.Scene{
             rightCardContainer.getByName('texture').disableInteractive()
             const card = gameObject.parentContainer
             const oppositeCard = card.name === "left"?rightCardContainer:leftCardContainer
+            this.tweens.add({
+                targets: this.textBox.container,
+                alpha: 0,
+                ease: 'sine.out',
+                duration: 500,
+                onComplete: () => oppositeCard.destroy()
+            })
             this.tweens.add({
                 targets: oppositeCard,
                 scale: 0,
@@ -159,7 +229,7 @@ export default class Actions extends Phaser.Scene{
             this.tweens.add({
                 targets: card,
                 x: centerX,
-                y: centerY,
+                y:centerY,
                 scale: normalCardScale,
                 ease: 'sine.inout',
                 onComplete: () => {
@@ -177,12 +247,17 @@ export default class Actions extends Phaser.Scene{
                             this.isRotating = false
                             this.rotatingCard = null
                             card.destroy()
-                            //switchToNextScene()
+                            this.callStats(card.result)
                         }
                     })
                 }
             })
         })
+        this.input.on("pointerdown",()=> {
+            console.log("tap")
+            const hadFullText = this.textBox.handleTap();
+        })
+
         this.input.on('gameobjectover', (pointer, gameObject) =>
         {
             const firstAngle = getRandomNumber(-1.5,1.5)
@@ -191,14 +266,14 @@ export default class Actions extends Phaser.Scene{
                 targets: gameObject.parentContainer,
                 tweens:[
                     {
-                        scale:normalCardScale,
+                        scale:normalCardScale*0.9,
                         angle: 0,
-                        ease: 'expo.out',
+                        ease: 'quad.out',
                         duration:0,
                     },
                     {
                         props:{
-                            scale:{value: normalCardScale*1.1},
+                            scale:{value: normalCardScale*0.95},
                             angle: {value:firstAngle,yoyo:true},
                         },
                         ease: 'sine.in',
@@ -218,7 +293,7 @@ export default class Actions extends Phaser.Scene{
         {
             this.tweens.add({
                 targets: gameObject.parentContainer,
-                scale: 1,
+                scale: normalCardScale*0.9,
                 angle: 0,
                 ease: 'expo.out',
                 duration:200
@@ -242,6 +317,10 @@ export default class Actions extends Phaser.Scene{
             normalTextStyle.fontSize = 10
             standardElDifference = 50
         }
+    }
+
+    callStats(result) {
+        this.events.emit('showStats',result.economy,result.security);
     }
 
     update(time, delta) {
