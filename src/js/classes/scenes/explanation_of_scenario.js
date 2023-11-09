@@ -8,7 +8,11 @@ const SUBSCENES = [
         key:"city",
         text:
             "At first some people will die. But then the others will die too. Everything will burn. Unless... You can stop it from happening."
-    }
+    },
+    {
+        key: "advisor",
+        text: "Greetings officer! I will be your advisor on legal matters concerning ongoing hostilities during your mission to conduct cyber operations against Inimicus. Our country, Patria is at war and we need your skills to kick enemy asses!"},
+
 ]
 
 export default class ExplanationOfScenario extends Phaser.Scene{
@@ -21,6 +25,7 @@ export default class ExplanationOfScenario extends Phaser.Scene{
         this.load.image("headquarters", "/assets/background/headquarters.png")
         this.load.image("face_to_face", "/assets/background/face_to_face.png")
         this.load.image("city", "/assets/background/city.png")
+        this.load.image("advisor", "/assets/background/cyber_advisor.png")
     }
     create(){
         const screenW = window.innerWidth * window.devicePixelRatio
@@ -39,11 +44,14 @@ export default class ExplanationOfScenario extends Phaser.Scene{
                     this.background.destroy();
                     this.background = this.add.image(centerX,centerY,SUBSCENES[this.currentSubscene].key)
                     this.checkResScale()
-                    if (this.currentSubscene === 1){
-                        this.textBox.setContainerPosition("top")
+                    if (this.currentSubscene % 2 !== 0){
+                        this.textBox.setContainerPosition("bot")
                     }
                     else {
-                        this.textBox.setContainerPosition("bot")
+                        this.textBox.setContainerPosition("top")
+                    }
+                    if (SUBSCENES[this.currentSubscene].key === "advisor"){
+                        this.textBox.setTitle("Advisor:")
                     }
                     this.background.setDepth(-1)
                     this.textBox.setText(SUBSCENES[this.currentSubscene].text)
