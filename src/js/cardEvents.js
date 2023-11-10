@@ -39,7 +39,7 @@ const cardEvents=[
             [
                 {
                     title: "Deploy “Jerry”",
-                    icon: "assets/objects/card/icons/troy.png",
+                    icon: "assets/objects/card/icons/surgery.png",
                     body: "“Jerry” is designed to identify a specific process-control system and disable it, shutting down closed network of specific weapons factory",
                     feedback:"Rules 43 and 49 prohibit indiscriminate attacks, while rule 54 calls for minimising incidental damage to civilian objects. “Tom” will affect not only the military infrastructure, but may penetrate and disrupt civilian infrastructure as well, which may include facilities of vital importance for civilians, potentially causing injuries and death. This type of indiscriminate action will result in strong condemnation from the international community and possibly, sanctions.",
                     isLegal: false,
@@ -48,7 +48,7 @@ const cardEvents=[
                 },
                 {
                     title: "Deploy “Tom”",
-                    icon: "assets/objects/card/icons/puppet.png",
+                    icon: "assets/objects/card/icons/firefire.png",
                     body: "“Tom” can be spread easily after introducing it to the adversary's network and cause disruptions resulting in disabling of functioning to a wide variety of systems.",
                     feedback:"Even though the scale of “Jerry’s” effect is much smaller, its effect can be directed and limited to a legitimate military objective, thus not violating Rules 43 and 49 prohibiting indiscriminate attacks and Rule 54 on minimising incidental damage to civilian objects. This is a perfectly legal action from our side.",
                     isLegal: true,
@@ -63,4 +63,22 @@ const cardEvents=[
         }
     }
 ]
+
+/*
+Const cards=
+    [
+        {
+            title:"Brute-force",
+            icon:"assets/objects/card/icons/bruteforce.png",
+            body:"Deploy your digital brute-force prowess to breach enemy defenses. This card allows you to target a single opponent's security system, attempting to overpower their defenses through sheer computational strength. Success could provide you with valuable intelligence or disrupt their operations"
+
+        },
+        {
+            title:"Mass Disruption",
+            icon:"assets/objects/card/icons/puppet.png",
+            body:" Unleash chaos across the digital battlefield with the \"Mass Disruption\" card. When played, this card can disrupt multiple enemy systems simultaneously, causing temporary chaos and confusion among your rivals. Use it strategically to gain the upper hand or disrupt your opponents' well-laid plans"
+        }
+    ]
+*/
+
 export default cardEvents
