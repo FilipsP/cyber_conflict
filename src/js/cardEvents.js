@@ -41,8 +41,8 @@ const cardEvents=[
                     title: "Deploy “Jerry”",
                     icon: "assets/objects/card/icons/surgery.png",
                     body: "“Jerry” is designed to identify a specific process-control system and disable it, shutting down closed network of specific weapons factory",
-                    feedback:"Rules 43 and 49 prohibit indiscriminate attacks, while rule 54 calls for minimising incidental damage to civilian objects. “Tom” will affect not only the military infrastructure, but may penetrate and disrupt civilian infrastructure as well, which may include facilities of vital importance for civilians, potentially causing injuries and death. This type of indiscriminate action will result in strong condemnation from the international community and possibly, sanctions.",
-                    isLegal: false,
+                    feedback:"Even though the scale of “Jerry’s” effect is much smaller, its effect can be directed and limited to a legitimate military objective, thus not violating Rules 43 and 49 prohibiting indiscriminate attacks and Rule 54 on minimising incidental damage to civilian objects. This is a perfectly legal action from our side.",
+                    isLegal: true,
                     economy: 0,
                     security: 0.1
                 },
@@ -50,8 +50,8 @@ const cardEvents=[
                     title: "Deploy “Tom”",
                     icon: "assets/objects/card/icons/firefire.png",
                     body: "“Tom” can be spread easily after introducing it to the adversary's network and cause disruptions resulting in disabling of functioning to a wide variety of systems.",
-                    feedback:"Even though the scale of “Jerry’s” effect is much smaller, its effect can be directed and limited to a legitimate military objective, thus not violating Rules 43 and 49 prohibiting indiscriminate attacks and Rule 54 on minimising incidental damage to civilian objects. This is a perfectly legal action from our side.",
-                    isLegal: true,
+                    feedback:"Rules 43 and 49 prohibit indiscriminate attacks, while rule 54 calls for minimising incidental damage to civilian objects. “Tom” will affect not only the military infrastructure, but may penetrate and disrupt civilian infrastructure as well, which may include facilities of vital importance for civilians, potentially causing injuries and death. This type of indiscriminate action will result in strong condemnation from the international community and possibly, sanctions.",
+                    isLegal: false,
                     economy: -0.1,
                     security: 0.1
                 }],
@@ -61,7 +61,41 @@ const cardEvents=[
             isLegal: false,
             body: "Inimicus has conducted a cyber attack on our railway network which was used for civilian and military transport, disrupting the traffic. Because it was a dual-use object, Inimicus’ actions do not violate international law. According to Rule 39 objects that are used for both civilian and military purposes, including the rail network, can be considered as a military objective. (although this is not always clear cut, see the proportionality principle)"
         }
-    }
+    },
+    {
+        task:{
+            title: "Advisor:",
+            body : "Our cyber operations team is now capable of disrupting adversaries' communication’s system. For this end there are two ways..."
+        },
+        cards:
+            [
+                {
+                    title: "Attack Military Command",
+                    icon: "assets/objects/card/icons/headshot.png",
+                    body: "Attack the military command network directly, causing chaos and loss of control.",
+                    feedback:"As per rule 56, this is the appropriate action as it yields the same result as the first option, but with causing less danger to civilians",
+                    isLegal: true,
+                    economy: 0,
+                    security: 0.1
+                },
+                {
+                    title: "Attack dual-use system",
+                    icon: "assets/objects/card/icons/dual.png",
+                    body: "Disable Military/Civilian communications lines causing mass disruption and loss of communication possibly leading to the economical collapse of the enemy.",
+                    feedback:"According to rule 56, when two possible attack options will yield the same result, we should choose the one that causes least danger to civilians. In this case the same result could have been achieved with the second option, while not endangering civilians by disrupting their communication lines as well. If the international investigation also finds that we had other, more appropriate choice leading to similar military advantage our actions will be condemned with the possibility of imposing sanctions",
+                    isLegal: false,
+                    economy: -0.1,
+                    security: 0.1
+                }],
+        adversaryAction: {
+            economy: 0,
+            security: 0,
+            isLegal: true,
+            body: "We have intercepted a coded communication between the military command network of Inimicus and one of its military units containing orders on planned military operations. We treat the information with caution, suspecting that it was intended for interception and contains false intelligence. This type of ruse of war is permitted during cyber operations according to Rule 61 of the Tallinn Manual."
+        }
+    },
+
+
 ]
 
 /*
