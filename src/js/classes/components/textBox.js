@@ -39,6 +39,7 @@ export default class TextBox {
             this.textToDisplay.setText(this.fullText.substring(0,this.chars))
             return false;
         }
+        clearInterval(this.timer)
         return true;
     }
 
@@ -50,10 +51,14 @@ export default class TextBox {
         this.title.setText(title)
     }
 
-    setText(text){
-        this.fullText = text
+    setText(text,startTimer= true){
+        clearInterval(this.timer)
         this.chars = 0
-        this.setTimer()
+        this.textToDisplay.setText("")
+        this.fullText = text
+        if (startTimer){
+            this.setTimer()
+        }
     }
 
     setContainerPosition(position){
