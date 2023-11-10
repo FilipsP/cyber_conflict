@@ -124,14 +124,14 @@ export default class Actions extends Phaser.Scene{
                 this.textBox.setTimer()
                 this.tweens.add({
                     targets: this.economyData.economyBar,
-                    width: this.economyData.economy += this.economyData.maxEconomy*=economyChange,
+                    width: this.economyData.economy += (this.economyData.maxEconomy*economyChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
                 })
                 this.tweens.add({
                     targets: this.economyData.securityBar,
-                    width: this.economyData.security += this.economyData.maxSecurity*=securityChange,
+                    width: this.economyData.security += (this.economyData.maxSecurity*securityChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
@@ -155,14 +155,14 @@ export default class Actions extends Phaser.Scene{
         })
     }
     updateStats(economyChange,securityChange){
-        this.economyData.security += this.economyData.maxSecurity*=securityChange;
-        this.economyData.economy += this.economyData.maxEconomy*=economyChange;
+        this.economyData.security += (this.economyData.maxSecurity*securityChange);
+        this.economyData.economy += (this.economyData.maxEconomy*economyChange);
     }
 
     callStats(cardData) {
         this.events.emit('showStats',cardData.economy,cardData.security);
         setTimeout(()=> {
-            this.updateStats(cardData.economy,cardData.security);
+            //this.updateStats(cardData.economy,cardData.security);
             this.setState(1)
         },2000)
     }
