@@ -229,7 +229,7 @@ export default class Actions extends Phaser.Scene{
                 ease: 'sine.out',
                 duration: 500,
                 onComplete: () => {
-                    this.textBox.setTitle("Feedback for "+card.cardData.title+":")
+                    this.textBox.setTitle("Feedback on "+card.cardData.title+":")
                     this.textBox.setText(card.cardData.feedback,false)
                 }
             })
