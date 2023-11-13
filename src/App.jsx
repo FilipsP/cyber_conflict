@@ -8,11 +8,13 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<GamePage />} />
-        <Route path="/docs" element={<DocsPage />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
-      </Routes>
+      <div className="mt-16">
+        <Routes>
+          <Route path="/" element={<GamePage />} />
+          <Route path="/docs" element={<DocsPage />} />
+          <Route path="*" element={<h1>Not Found</h1>} />
+        </Routes>
+      </div>
     </div>
   )
 }
