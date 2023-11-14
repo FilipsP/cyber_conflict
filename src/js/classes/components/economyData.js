@@ -1,7 +1,9 @@
+import gameState from "../../gameState.js";
+
 export default class EconomyData {
     constructor(parent) {
-        this.economy = 300
-        this.security = 60
+        this.economy = 300 * gameState.playerData.economy
+        this.security = 60 * gameState.playerData.security
         this.maxEconomy = 300
         this.maxSecurity = 300
 
