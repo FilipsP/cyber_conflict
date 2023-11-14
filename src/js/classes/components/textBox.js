@@ -21,10 +21,10 @@ export default class TextBox {
 
     _buildBox(parentScene,title){
         const screenW = window.innerWidth * window.devicePixelRatio
-        //const screenH = window.innerHeight * window.devicePixelRatio
+        const screenH = window.innerHeight * window.devicePixelRatio
         const centerX = screenW/2
         //const centerY = screenH/2
-        this.background = parentScene.add.rectangle(0,0,screenW-130,230,0x21242A)
+        this.background = parentScene.add.rectangle(0,0,screenW-130,screenH*0.22,0x21242A)
         this.normalTextStyle.wordWrap.width = this.background.width - (this.background.width*0.2)
         this.title = parentScene.add.text(-this.background.width*0.45,-80, title,this.titleStyle)
         this.textToDisplay = parentScene.add.text(-this.background.width*0.45,-this.background.height*0.05,"",this.normalTextStyle)
@@ -56,6 +56,8 @@ export default class TextBox {
         this.chars = 0
         this.textToDisplay.setText("")
         this.fullText = text
+        const screenH = window.innerHeight
+        this.background.height = (screenH*0.22) + (text.length*0.05)
         if (startTimer){
             this.setTimer()
         }
