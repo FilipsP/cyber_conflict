@@ -231,7 +231,7 @@ const cardEvents=[
             [
                 {
                     title: "Choose Hydro 2",
-                    icon: "assets/objects/card/icons/building.png",
+                    icon: "assets/objects/card/icons/flood.png",
                     body: "Releasing water from Hydro 2 would cause severe flooding of the area for a longer period of time, minimising the chances of a military attack from that region.",
                     feedback:"Rules 80 and 83 of Tallinn Manual, based on the I Additional Protocol to Geneva Conventions calls for the particular care when conduction attacks against installations containing dangerous forces, such as dams and states that the natural environment which is considered as a civilian object enjoys general protection and prohibits actions resulting in widespread, long-term and severe damage to the natural environment. As the water released from Hydro 2 has covered a large area, causing severe and widespread impact that will last for a long period of time, our action has violated international law and we have become subject to severe international sanctions crippling our economy.",
                     isLegal: false,
@@ -240,7 +240,7 @@ const cardEvents=[
                 },
                 {
                     title: "Choose Hydro 1",
-                    icon: "assets/objects/card/icons/value.png",
+                    icon: "assets/objects/card/icons/bottle_of_water.png",
                     body: "Water from Hydro 1 would flood some parts of the area for several days and would temporarily halt the military invasion from that territory.",
                     feedback:"We have stalled the invasion for only several days, but this was the legal move, as Rules 80 and 83 of the Tallinn Manual calls for the particular care when conduction attacks against installations containing dangerous forces, such as dams and states that the natural environment which is considered as a civilian object enjoys general protection. This rule based on the I Additional Protocol to Geneva Conventions prohibits actions resulting in widespread, long-term and severe damage to the natural environment. Releasing water from Hydro 1 will have a limited, short-term effect and will not cause severe damage.",
                     isLegal: true,
