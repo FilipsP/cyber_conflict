@@ -43,10 +43,6 @@ export default class TextBox {
         return true;
     }
 
-    setBGHeight(){
-        // should alter bg based on text size
-    }
-
     setTitle(title){
         this.title.setText(title)
     }
