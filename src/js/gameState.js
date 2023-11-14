@@ -1,7 +1,7 @@
 
 const gameState = {
     currentScene: "menu",
-    currentAction : 0,
+    currentAction : 6,
     playerData:{
         economy:1,
         security:0.2
