@@ -5,7 +5,7 @@ import { IoMdClose } from "react-icons/io"
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   return (
-    <div className="">
+    <div>
       <button
         className="m-2 p-1 hover:bg-gray-600 rounded md:hidden"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
