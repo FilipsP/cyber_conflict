@@ -32,7 +32,7 @@ export default class ExplanationOfScenario extends Phaser.Scene{
         const screenH = window.innerHeight * window.devicePixelRatio
         const centerX = screenW/2
         const centerY = screenH/2
-        this.background = this.add.image(centerX,centerY,"headquarters")
+        this.background = this.add.image(window.innerWidth/2, window.innerHeight/2,"headquarters")
         this.textBox = new TextBox(this,"Explanation of scenario",SUBSCENES[this.currentSubscene].text)
         this.checkResScale()
         this.input.on("pointerdown",()=>{
@@ -42,7 +42,7 @@ export default class ExplanationOfScenario extends Phaser.Scene{
                 if (this.currentSubscene<SUBSCENES.length-1){
                     this.currentSubscene += 1
                     this.background.destroy();
-                    this.background = this.add.image(centerX,centerY,SUBSCENES[this.currentSubscene].key)
+                    this.background = this.add.image(window.innerWidth/2, window.innerHeight/2,SUBSCENES[this.currentSubscene].key)
                     this.checkResScale()
                     if (this.currentSubscene % 2 !== 0){
                         this.textBox.setContainerPosition("bot")
@@ -71,23 +71,16 @@ export default class ExplanationOfScenario extends Phaser.Scene{
     }
 
     checkResScale(){
-        if (window.innerWidth * window.devicePixelRatio > 2560){
+        if (window.innerWidth >= 2560){
             this.background.setScale(2)
         }
-        else if (window.innerWidth * window.devicePixelRatio > 1980){
-            this.background.setScale(1.3333)
-        }
-        else if (window.innerWidth * window.devicePixelRatio === 1980){
+        else if (window.innerWidth >= 1980){
             this.background.setScale(1)
         }
-        else if (window.innerWidth * window.devicePixelRatio <= 1334){
-            this.background.setScale(0.69)
-            this.textBox.titleStyle.fontSize = 20
-            this.textBox.normalTextStyle.fontSize = 14
-            this.textBox.standardElDifference = 50
+        else if (window.innerWidth <= 1500){
+            this.background.setScale(0.8)
+        
         }
     }
-
-
 
 }
