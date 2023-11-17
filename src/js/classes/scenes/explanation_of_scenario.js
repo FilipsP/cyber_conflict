@@ -71,16 +71,7 @@ export default class ExplanationOfScenario extends Phaser.Scene{
     }
 
     checkResScale(){
-        if (window.innerWidth >= 2560){
-            this.background.setScale(2)
-        }
-        else if (window.innerWidth >= 1980){
-            this.background.setScale(1)
-        }
-        else if (window.innerWidth <= 1500){
-            this.background.setScale(0.8)
-        
-        }
+        this.background.setScale(window.innerWidth/1920)
     }
 
 }

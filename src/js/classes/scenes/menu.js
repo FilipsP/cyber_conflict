@@ -37,20 +37,22 @@ export default class Menu extends Phaser.Scene{
         this.btnUnderline = this.add.rectangle(playBtn.x,playBtn.y,250,10,0xEADB74,0.8)
         this.btnUnderline.setAlpha(0)
         this.screenContainer = this.add.container(0,0,[title1,title2,playBtn,readBtn,sufferBtn,this.btnUnderline])
-        if (window.innerWidth >= 2560){
-            bg.setScale(2)
-        }
-        else if (window.innerWidth > 1980){
-            // .. 
-        }
-        else if (window.innerWidth <= 1500){
-            bg.setScale(0.8)
-            title1.setScale(0.5)
-            title2.setScale(0.5)
-            playBtn.setScale(0.5)
-            readBtn.setScale(0.5)
-            sufferBtn.setScale(0.5)
-            this.btnUnderline.setScale(0.5)
+        bg.setScale(window.innerWidth/1920)
+        if (window.innerWidth < 1920) {
+            if (window.innerWidth > 1500) {
+                title1.setScale(0.8)
+                title2.setScale(0.8)
+                playBtn.setScale(0.8)
+                readBtn.setScale(0.8)
+                sufferBtn.setScale(0.8)
+            } else if (window.innerWidth <= 1500) {
+                title1.setScale(0.5)
+                title2.setScale(0.5)
+                playBtn.setScale(0.5)
+                readBtn.setScale(0.5)
+                sufferBtn.setScale(0.5)
+                this.btnUnderline.setScale(0.5)
+            }
         }
         playBtn.setInteractive({ cursor: 'pointer' })
         readBtn.setInteractive({ cursor: 'pointer' })

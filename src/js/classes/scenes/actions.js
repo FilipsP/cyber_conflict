@@ -19,12 +19,15 @@ const normalTextStyle = {
     wordWrap: { width: 400, useAdvancedWrap: true }
 }
 
-let standardElDifference = 400
-let normalCardScale = 1;
+let normalCardScale = 0.8;
 
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min + 1) + min;
+}
+
+function getRandomInt(min, max) {
+    return Math.round(Math.random() * (max - min + 1) + min);
 }
 
 export default class Actions extends Phaser.Scene{
@@ -195,19 +198,22 @@ export default class Actions extends Phaser.Scene{
         }
     }
     create(){
-        const width = (window.innerWidth * window.devicePixelRatio)
-        const height = (window.innerHeight * window.devicePixelRatio)
+        const width = (window.innerWidth)
+        const height = (window.innerHeight)
         const centerX = width/2
         const centerY = height/2
         this.background = this.add.image(centerX,centerY,"headquarters")
-        this.leftCardContainer = this.buildContainer()
-        this.rightCardContainer = this.buildContainer()
-        this.updateCard(this.leftCardContainer,centerX-standardElDifference,0)
-        this.updateCard(this.rightCardContainer,centerX+standardElDifference, 1)
-        this.leftCardContainer.name  = "left"
-        this.rightCardContainer.name  = "right"
+        this.checkResScale()
         const currentTask = cardEvents[gameState.currentAction].task
         this.textBox = new TextBox(this,currentTask.title,currentTask.body)
+        this.leftCardContainer = this.buildContainer()
+        this.rightCardContainer = this.buildContainer()
+        this.leftCardContainer.name  = "left"
+        this.rightCardContainer.name  = "right"
+        let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
+        //pos.splice(getRandomInt(0,pos.length-1), 1)
+        this.updateCard(this.leftCardContainer,centerX-window.innerWidth*0.15,0)
+        this.updateCard(this.rightCardContainer,centerX+window.innerWidth*0.15,1)
         this.economyData = new EconomyData(this)
         this.economyData.container.setAlpha(0)
         this.events.on('showCardContainer', this.setShowCardEmitter, this);
@@ -215,7 +221,6 @@ export default class Actions extends Phaser.Scene{
         this.events.on('hideStats',this.setHideEconomyDataEmitter,this);
         this.events.emit('showCardContainer',this.rightCardContainer);
         this.events.emit('showCardContainer',this.leftCardContainer);
-        this.checkResScale()
         //TODO: rewrite name usage if more cards are needed!
         //create a list of containers and kill all but selected
         this.input.on('gameobjectdown', (pointer, gameObject) => {
@@ -229,7 +234,8 @@ export default class Actions extends Phaser.Scene{
                 ease: 'sine.out',
                 duration: 500,
                 onComplete: () => {
-                    this.textBox.setTitle("Feedback on "+card.cardData.title+":")
+                    const isLegal = card.cardData.isLegal?"legal":"illegal"
+                    this.textBox.setTitle("Feedback on '"+card.cardData.title+"'("+isLegal+")"+":")
                     this.textBox.setText(card.cardData.feedback,false)
                 }
             })
@@ -341,8 +347,9 @@ export default class Actions extends Phaser.Scene{
         //TODO: rewrite if more than 2 options are needed, create random order
         this.textBox.setTitle(currentAction.task.title)
         this.textBox.setText(currentAction.task.body)
-        this.updateCard(this.leftCardContainer,centerX-standardElDifference,0)
-        this.updateCard(this.rightCardContainer,centerX+standardElDifference,1)
+        let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
+        this.updateCard(this.leftCardContainer,pos.splice(getRandomNumber(0,pos.length-1), 1),0)
+        this.updateCard(this.rightCardContainer,pos.splice(getRandomNumber(0,pos.length-1), 1),1)
         this.events.emit('showCardContainer',this.rightCardContainer);
         this.events.emit('showCardContainer',this.leftCardContainer);
         this.tweens.add({
@@ -356,7 +363,7 @@ export default class Actions extends Phaser.Scene{
     updateCard(cardContainer,xPos,cardDataIndex){
         const currentAction = cardEvents[gameState.currentAction]
         const cards = currentAction.cards
-        const height = window.innerHeight * window.devicePixelRatio
+        const height = window.innerHeight
         const title = cardContainer.getByName('title')
         const body = cardContainer.getByName('body')
         const texture = cardContainer.getByName('texture')
@@ -366,7 +373,7 @@ export default class Actions extends Phaser.Scene{
         texture.setTexture('back')
         icon.setTexture('icon'+gameState.currentAction+cardDataIndex)
         cardContainer.x  = xPos
-        cardContainer.y  = height*0.6
+        cardContainer.y  = (window.innerHeight*0.6)
         cardContainer.cardData = cards[cardDataIndex]
         icon.setAlpha(0)
         body.setAlpha(0)
@@ -374,20 +381,15 @@ export default class Actions extends Phaser.Scene{
     }
 
     checkResScale(){
-        if (window.innerWidth * window.devicePixelRatio > 2560){
-            this.background.setScale(2)
+        this.background.setScale(window.innerWidth/1920)
+        console.log(window.innerWidth/1920)
+        if (window.innerWidth/1920<1){
+            normalCardScale = (window.innerWidth/1920)-0.2
         }
-        else if (window.innerWidth * window.devicePixelRatio > 1980){
-            this.background.setScale(1.3333)
-        }
-        else if (window.innerWidth * window.devicePixelRatio === 1980){
-            this.background.setScale(1)
-        }
-        else if (window.innerWidth * window.devicePixelRatio <= 1334){
+        if (window.innerWidth * window.devicePixelRatio <= 1500){
             this.background.setScale(0.69)
-            titleStyle.fontSize = 15
-            normalTextStyle.fontSize = 10
-            standardElDifference = 50
+            titleStyle.fontSize = 25
+            normalTextStyle.fontSize = 21
         }
     }
 

@@ -1,20 +1,22 @@
 export default class TextBox {
     constructor(parentScene,title,initialText) {
+        this.fullText = initialText
+        this.chars = 0;
+        this.parent = parentScene
+        this.scaleFactor = 0.7
+        this.getScaleFactor()
         this.titleStyle = {
-            fontSize: 80,
+            fontSize: 200,
             fontFamily: 'Share Tech Mono',
             color: '#D9D9D9',
         }
 
         this.normalTextStyle = {
-            fontSize: 50,
+            fontSize: 100,
             fontFamily: 'Share Tech Mono',
             color: '#D9D9D9',
-            wordWrap: { width: window.innerWidth*1.6, useAdvancedWrap: true }
+            wordWrap: { width: window.innerWidth, useAdvancedWrap: true }
         }
-        this.fullText = initialText
-        this.chars = 0;
-        this.parent = parentScene
         this._buildBox(parentScene,title)
         this.setContainerPosition()
         this.setTimer()
@@ -26,11 +28,17 @@ export default class TextBox {
         const centerX = screenW/2
         //const centerY = screenH/2
         this.background = parentScene.add.rectangle(0,0,window.innerWidth*0.9,window.innerHeight*0.22,0x21242A)
+        this.normalTextStyle.wordWrap.width = (this.background.width*0.9)  / this.scaleFactor
         this.title = parentScene.add.text(-this.background.width*0.45,-this.background.height*0.3,title,this.titleStyle)
-        this.textToDisplay = parentScene.add.text(-this.background.width*0.45,this.background.height*0.1,"",this.normalTextStyle)
+        this.textToDisplay = parentScene.add.text(-this.background.width*0.45,this.title.y+((this.title.height*1.1)*this.scaleFactor),"",this.normalTextStyle)
         this.container = parentScene.add.container(centerX, window.innerHeight*0.7,[this.background,this.title,this.textToDisplay]);
-        this.title.setScale(0.5)
-        this.textToDisplay.setScale(0.5)
+        console.log(screenH)
+        this.title.setScale(this.scaleFactor)
+        this.textToDisplay.setScale(this.scaleFactor)
+    }
+
+    getScaleFactor(){
+        this.scaleFactor = window.innerHeight / 4096
     }
 
     handleTap(){
