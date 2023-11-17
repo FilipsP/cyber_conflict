@@ -37,7 +37,7 @@ export default class Actions extends Phaser.Scene{
 
     buildContainer(){
         //TODO: create card class and use this as constructor
-        const height = window.innerHeight * window.devicePixelRatio
+        const height = window.innerHeight
         const card = this.add.rectangle(0,0,580,810,0x21242A)
         const title = this.add.text(0,-card.height*0.45 , "" ,titleStyle).setOrigin(0.5,0)
         const body = this.add.text(0, card.height*0.13,"" ,normalTextStyle).setOrigin(0.5,0)
@@ -114,7 +114,7 @@ export default class Actions extends Phaser.Scene{
         });
     }
     setShowEconomyDataEmitter(economyChange,securityChange){
-        this.economyData.container.setScale(1)
+        this.economyData.reset()
         this.tweens.add({
             targets: [this.economyData.container,this.textBox.container],
             alpha: 1,

@@ -12,10 +12,13 @@ export default class EconomyData {
         this._buildEconomyData(parent)
     }
     _setScaleFactor(){
-        const scale = window.innerHeight/2160
+        const scale = window.innerHeight/1320
         console.log(scale)
         if (scale<1){
             this.scaleFactor = scale
+        }
+        if (this.scaleFactor<0.5){
+            this.scaleFactor = 0.5
         }
     }
     _buildEconomyData(parent){
@@ -29,5 +32,10 @@ export default class EconomyData {
         this.securityBar.setStrokeStyle(3, 0x2F363D)
         this.securityBar.width = this.security
         this.container = parent.add.container(window.innerWidth/2, (window.innerHeight*0.6), [this.background,this.coin,this.shield,this.economyBar,this.securityBar]);
+        this.container.setScale(0)
+    }
+
+    reset(){
+        this.container.setScale(this.scaleFactor)
     }
 }
