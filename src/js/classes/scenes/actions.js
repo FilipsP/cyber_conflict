@@ -20,14 +20,11 @@ const normalTextStyle = {
 }
 
 let normalCardScale = 0.8;
+const pos = [(window.innerWidth/2)+(window.innerWidth*0.15),(window.innerWidth/2)-(window.innerWidth*0.15)]
 
 
 function getRandomNumber(min, max) {
     return Math.random() * (max - min + 1) + min;
-}
-
-function getRandomInt(min, max) {
-    return Math.round(Math.random() * (max - min + 1) + min);
 }
 
 export default class Actions extends Phaser.Scene{
@@ -210,17 +207,12 @@ export default class Actions extends Phaser.Scene{
         this.rightCardContainer = this.buildContainer()
         this.leftCardContainer.name  = "left"
         this.rightCardContainer.name  = "right"
-        let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
-        //pos.splice(getRandomInt(0,pos.length-1), 1)
-        this.updateCard(this.leftCardContainer,centerX-window.innerWidth*0.15,0)
-        this.updateCard(this.rightCardContainer,centerX+window.innerWidth*0.15,1)
         this.economyData = new EconomyData(this)
         this.economyData.container.setAlpha(0)
         this.events.on('showCardContainer', this.setShowCardEmitter, this);
         this.events.on('showStats', this.setShowEconomyDataEmitter, this);
         this.events.on('hideStats',this.setHideEconomyDataEmitter,this);
-        this.events.emit('showCardContainer',this.rightCardContainer);
-        this.events.emit('showCardContainer',this.leftCardContainer);
+        this.updateCardsContent()
         //TODO: rewrite name usage if more cards are needed!
         //create a list of containers and kill all but selected
         this.input.on('gameobjectdown', (pointer, gameObject) => {
@@ -249,7 +241,7 @@ export default class Actions extends Phaser.Scene{
             this.tweens.add({
                 targets: card,
                 x: centerX,
-                y:centerY,
+                y: centerY,
                 scale: normalCardScale,
                 ease: 'sine.inout',
                 onComplete: () => {
@@ -341,15 +333,15 @@ export default class Actions extends Phaser.Scene{
     }
 
     updateCardsContent(){
-        const width = (window.innerWidth * window.devicePixelRatio)
-        const centerX = width/2
         const currentAction = cardEvents[gameState.currentAction]
         //TODO: rewrite if more than 2 options are needed, create random order
         this.textBox.setTitle(currentAction.task.title)
         this.textBox.setText(currentAction.task.body)
-        //let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
-        this.updateCard(this.leftCardContainer,centerX+window.innerWidth*0.15,0)
-        this.updateCard(this.rightCardContainer,centerX-window.innerWidth*0.15,1)
+        //const firstValue = pos.splice(Math.round(Math.random()), 1)
+        const firstIndex = Math.round(Math.random())
+        const secondIndex = firstIndex===0?1:0
+        this.updateCard(this.leftCardContainer,pos[firstIndex],0)
+        this.updateCard(this.rightCardContainer,pos[secondIndex],1)
         this.events.emit('showCardContainer',this.rightCardContainer);
         this.events.emit('showCardContainer',this.leftCardContainer);
         this.tweens.add({
