@@ -347,9 +347,9 @@ export default class Actions extends Phaser.Scene{
         //TODO: rewrite if more than 2 options are needed, create random order
         this.textBox.setTitle(currentAction.task.title)
         this.textBox.setText(currentAction.task.body)
-        let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
-        this.updateCard(this.leftCardContainer,pos.splice(getRandomNumber(0,pos.length-1), 1),0)
-        this.updateCard(this.rightCardContainer,pos.splice(getRandomNumber(0,pos.length-1), 1),1)
+        //let pos = [centerX+window.innerWidth*0.15,centerX-window.innerWidth*0.15]
+        this.updateCard(this.leftCardContainer,centerX+window.innerWidth*0.15,0)
+        this.updateCard(this.rightCardContainer,centerX-window.innerWidth*0.15,1)
         this.events.emit('showCardContainer',this.rightCardContainer);
         this.events.emit('showCardContainer',this.leftCardContainer);
         this.tweens.add({
