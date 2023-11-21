@@ -4,7 +4,7 @@ import EconomyData from "../components/economyData.js";
 import gameState from "../../gameState.js";
 import cardEvents from "../../cardEvents.js";
 
-const STATE = ["TEXT","RESULTS"]
+const STATE = ["TEXT","RESULTS","ENEMY-RESULTS"]
 
 const titleStyle = {
     fontSize: 35,
@@ -113,25 +113,25 @@ export default class Actions extends Phaser.Scene{
             }
         });
     }
-    setShowEconomyDataEmitter(economyChange,securityChange){
-        this.economyData.reset()
+    setShowEconomyDataEmitter(economyData,economyChange,securityChange){
+        economyData.reset()
         this.tweens.add({
-            targets: [this.economyData.container,this.textBox.container],
+            targets: [economyData.container,this.textBox.container],
             alpha: 1,
             ease: 'sine.out',
             duration: 500,
             onComplete: () => {
                 this.textBox.setTimer()
                 this.tweens.add({
-                    targets: this.economyData.economyBar,
-                    width: this.economyData.economy += (this.economyData.maxEconomy*economyChange),
+                    targets: economyData.economyBar,
+                    width: economyData.economy += (economyData.maxEconomy*economyChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
                 })
                 this.tweens.add({
-                    targets: this.economyData.securityBar,
-                    width: this.economyData.security += (this.economyData.maxSecurity*securityChange),
+                    targets: economyData.securityBar,
+                    width: economyData.security += (economyData.maxSecurity*securityChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
@@ -139,9 +139,9 @@ export default class Actions extends Phaser.Scene{
             }
         })
     }
-    setHideEconomyDataEmitter(){
+    setHideEconomyDataEmitter(economyData){
         this.tweens.add({
-            targets: [this.economyData.container],
+            targets: economyData.container,
             duration:500,
             alpha:0,
             scale:30,
@@ -159,10 +159,9 @@ export default class Actions extends Phaser.Scene{
         this.economyData.economy += (this.economyData.maxEconomy*economyChange);
     }
 
-    callStats(cardData) {
-        this.events.emit('showStats',cardData.economy,cardData.security);
+    callStats(economyData,cardData,showEnemyStats= false) {
+        this.events.emit('showStats',economyData,cardData.economy,cardData.security);
         setTimeout(()=> {
-            //this.updateStats(cardData.economy,cardData.security);
             this.setState(1)
         },2000)
     }
@@ -174,10 +173,24 @@ export default class Actions extends Phaser.Scene{
         this.currentState = value;
     }
 
-    handleStatsTap(){
-        this.events.emit('hideStats')
+    handleStatsTap(showEnemyStats=false){
         this.setState(0)
-        this.handleActionSwitch()
+        if (showEnemyStats){
+            this.events.emit('hideStats',this.economyData)
+            const currentAction = cardEvents[gameState.currentAction].adversaryAction
+            this.cameras.main.shake(800);
+            this.callStats(this.enemyEconomyData,currentAction)
+            const isLegal = currentAction.isLegal?"(legal)":"(illegal)"
+            this.textBox.setTitle("Advisor on enemy action:"+isLegal)
+            this.textBox.setText(currentAction.body)
+            setTimeout(()=> {
+                this.setState(2)
+            },2000)
+        }
+        else{
+            this.events.emit('hideStats',this.enemyEconomyData)
+            this.handleActionSwitch();
+        }
     }
 
     preload(){
@@ -186,6 +199,7 @@ export default class Actions extends Phaser.Scene{
         this.load.image('mystery_front', 'assets/objects/card/front_mystery.png');
         this.load.image('front', 'assets/objects/card/front_empty.png');
         this.load.image('coin', 'assets/objects/card/icons/coin_pile.png');
+        this.load.image('blood_coin', 'assets/objects/card/icons/blood_coin_pile.png');
         this.load.image('fire', 'assets/objects/card/icons/fire.png');
         this.load.image('shield', 'assets/objects/card/icons/stat_shield.png');
         for (let j = 0;j<cardEvents.length;j++ ){
@@ -209,6 +223,8 @@ export default class Actions extends Phaser.Scene{
         this.rightCardContainer.name  = "right"
         this.economyData = new EconomyData(this)
         this.economyData.container.setAlpha(0)
+        this.enemyEconomyData = new EconomyData(this,"enemy")
+        this.enemyEconomyData.container.setAlpha(0)
         this.events.on('showCardContainer', this.setShowCardEmitter, this);
         this.events.on('showStats', this.setShowEconomyDataEmitter, this);
         this.events.on('hideStats',this.setHideEconomyDataEmitter,this);
@@ -259,7 +275,7 @@ export default class Actions extends Phaser.Scene{
                             this.isRotating = false
                             this.rotatingCard = null
                             card.setAlpha(0)
-                            this.callStats(card.cardData)
+                            this.callStats(this.economyData,card.cardData)
                         }
                     })
                 }
@@ -271,11 +287,14 @@ export default class Actions extends Phaser.Scene{
                     this.textBox.handleTap();
                     break;
                 case STATE[1]:
-                    const hasFullText = this.textBox.handleTap();
-                    if (hasFullText){
-                        this.handleStatsTap();
+                    if (this.textBox.handleTap()){
+                        this.handleStatsTap(true);
                     }
                     break;
+                case STATE[2]:
+                    if (this.textBox.handleTap()){
+                        this.handleStatsTap(false);
+                    }
             }
         })
 
@@ -374,7 +393,6 @@ export default class Actions extends Phaser.Scene{
 
     checkResScale(){
         this.background.setScale(window.innerWidth/1920)
-        console.log(window.innerWidth/1920)
         if (window.innerWidth/1920<1){
             normalCardScale = (window.innerWidth/1920)-0.2
         }
