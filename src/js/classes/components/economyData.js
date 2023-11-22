@@ -27,7 +27,7 @@ export default class EconomyData {
     }
     _buildEconomyData(parent,who){
         this.background = parent.add.rectangle(0,0,600,350,0x21242A)
-        this.titleBackground = parent.add.rectangle(0,-250,250,80,0x21242A)
+        this.titleBackground = parent.add.rectangle(0,-220,270,80,0x21242A)
         this.titleBackground.setStrokeStyle(5, 0x0C0A00)
         if (who === "player"){
             this.title = parent.add.text(this.titleBackground.x,this.titleBackground.y,"Your stats",this.titleStyle).setOrigin(0.5)
@@ -38,10 +38,8 @@ export default class EconomyData {
             this.economyBar.setStrokeStyle(3, 0xF2A203)
             this.securityBar = parent.add.rectangle(-60,80,this.maxSecurity,100,0xA7ADBA).setOrigin(0,0.5)
             this.securityBar.setStrokeStyle(3, 0x2F363D)
-
         }
-        //TODO: else if/switch in case there can be more than two sides/types
-            //FF7A10 orange
+        //TODO: elseif/switch or subclasses in case there can be more than two sides/types
         else{
             this.title = parent.add.text(this.titleBackground.x,this.titleBackground.y,"Enemy stats",this.titleStyle).setOrigin(0.5)
             this.coin = parent.add.image(-this.background.width*0.30,-80,"blood_coin")
@@ -51,7 +49,6 @@ export default class EconomyData {
             this.economyBar.setStrokeStyle(3,0x400303)
             this.securityBar = parent.add.rectangle(-60,80,this.maxSecurity,100,0xDA5E21).setOrigin(0,0.5)
             this.securityBar.setStrokeStyle(3, 0xFE7F36)
-
         }
         this.securityBar.width = this.security
         this.economyBar.width = this.economy
