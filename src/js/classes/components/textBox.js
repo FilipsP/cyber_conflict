@@ -61,6 +61,8 @@ export default class TextBox {
         this.textToDisplay.setText("")
         this.fullText = text
         this.background.setScale(this.background.scaleX,1+(this.fullText.length/2000))
+        this.title.y = -this.background.displayHeight*0.43
+        this.textToDisplay.y = this.title.y+((this.title.displayHeight*1.35))
         if (startTimer){
             this.setTimer()
         }
