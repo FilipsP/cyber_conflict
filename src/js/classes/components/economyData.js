@@ -9,8 +9,10 @@ export default class EconomyData {
         }
         this.maxEconomy = 300
         this.maxSecurity = 300
-        this.economy = this.maxEconomy * gameState.playerData.economy
-        this.security = this.maxSecurity * gameState.playerData.security
+        this.economy = gameState.playerData.economy
+        this.security = gameState.playerData.security
+        this.economyToDisplay = this.maxEconomy * this.economy
+        this.securityToDisplay = this.maxSecurity * this.security
         this.scaleFactor = 1
         this._setScaleFactor()
         this.parent = parent
@@ -50,8 +52,8 @@ export default class EconomyData {
             this.securityBar = parent.add.rectangle(-60,80,this.maxSecurity,100,0xDA5E21).setOrigin(0,0.5)
             this.securityBar.setStrokeStyle(3, 0xFE7F36)
         }
-        this.securityBar.width = this.security
-        this.economyBar.width = this.economy
+        this.securityBar.width = this.securityToDisplay
+        this.economyBar.width =  this.economyToDisplay
         this.container = parent.add.container(window.innerWidth/2, (window.innerHeight*0.6), [this.background,this.titleBackground,this.title,this.coin,this.shield,this.economyBar,this.securityBar]);
         this.container.setScale(0)
     }

@@ -124,14 +124,14 @@ export default class Actions extends Phaser.Scene{
                 this.textBox.setTimer()
                 this.tweens.add({
                     targets: economyData.economyBar,
-                    width: economyData.economy += (economyData.maxEconomy*economyChange),
+                    width: economyData.economyToDisplay += (economyData.maxEconomy*economyChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
                 })
                 this.tweens.add({
                     targets: economyData.securityBar,
-                    width: economyData.security += (economyData.maxSecurity*securityChange),
+                    width: economyData.securityToDisplay += (economyData.maxSecurity*securityChange),
                     ease: 'linear',
                     duration: 2000,
                     delay:100
@@ -154,9 +154,15 @@ export default class Actions extends Phaser.Scene{
             ease: 'expo.out',
         })
     }
-    updateStats(){
-        gameState.playerData.economy = this.economyData.economy
-        gameState.playerData.security = this.economyData.security
+    updateStats(cardData){
+        let newEconomyData = this.economyData.economy + cardData.economy
+        newEconomyData = parseFloat(newEconomyData.toFixed(1))
+        let newSecurityData = this.economyData.security + cardData.security
+        newSecurityData = parseFloat(newSecurityData.toFixed(1))
+        this.economyData.economy = newEconomyData
+        gameState.playerData.economy = newEconomyData
+        this.economyData.security = newSecurityData
+        gameState.playerData.security = newSecurityData
     }
 
     callStats(economyData,cardData) {
@@ -181,7 +187,6 @@ export default class Actions extends Phaser.Scene{
             this.cameras.main.shake(700,0.005);
             this.callStats(this.enemyEconomyData,currentAction)
             const isLegal = currentAction.isLegal?"(legal)":"(illegal)"
-            gameState.playerData.answers.push(currentAction.isLegal)
             this.textBox.setTitle("Advisor on enemy action"+isLegal+":")
             this.textBox.setText(currentAction.body)
             setTimeout(()=> {
@@ -237,13 +242,14 @@ export default class Actions extends Phaser.Scene{
             this.secondCardContainer.getByName('texture').disableInteractive()
             const card = gameObject.parentContainer
             const oppositeCard = card.name === "first"?this.secondCardContainer:this.firstCardContainer
+            const isLegal = card.cardData.isLegal?"legal":"illegal"
+            gameState.playerData.answers.push(card.cardData.isLegal)
             this.tweens.add({
                 targets: this.textBox.container,
                 alpha: 0,
                 ease: 'sine.out',
                 duration: 500,
                 onComplete: () => {
-                    const isLegal = card.cardData.isLegal?"legal":"illegal"
                     this.textBox.setTitle("Feedback on '"+card.cardData.title+"'("+isLegal+")"+":")
                     this.textBox.setText(card.cardData.feedback,false)
                 }
@@ -266,7 +272,7 @@ export default class Actions extends Phaser.Scene{
                         targets: card,
                         scale: 0,
                         duration: 500,
-                        delay: 2000,
+                        delay: 600,
                         ease: 'sine.inout',
                         onStart: () => {
                             this.rotatingCard = card
@@ -277,7 +283,7 @@ export default class Actions extends Phaser.Scene{
                             this.rotatingCard = null
                             card.setAlpha(0)
                             this.callStats(this.economyData,card.cardData)
-                            this.updateStats()
+                            this.updateStats(card.cardData)
                         }
                     })
                 }
@@ -344,6 +350,7 @@ export default class Actions extends Phaser.Scene{
     }
 
     handleActionSwitch(){
+        console.log("Sec: ",gameState.playerData.security,"|Eco: ",gameState.playerData.economy)
         if (gameState.currentAction+1<cardEvents.length){
             gameState.currentAction++
             this.updateCardsContent()
