@@ -19,8 +19,8 @@ const normalTextStyle = {
     wordWrap: { width: 400, useAdvancedWrap: true }
 }
 
-let normalCardScale = 0.8;
-const pos = [(window.innerWidth/2)+(window.innerWidth*0.15),(window.innerWidth/2)-(window.innerWidth*0.15)]
+let normalCardScale = 1;
+const pos = [window.innerWidth*0.35,window.innerWidth*0.65]
 
 
 function getRandomNumber(min, max) {
@@ -154,12 +154,12 @@ export default class Actions extends Phaser.Scene{
             ease: 'expo.out',
         })
     }
-    updateStats(economyChange,securityChange){
-        this.economyData.security += (this.economyData.maxSecurity*securityChange);
-        this.economyData.economy += (this.economyData.maxEconomy*economyChange);
+    updateStats(){
+        gameState.playerData.economy = this.economyData.economy
+        gameState.playerData.security = this.economyData.security
     }
 
-    callStats(economyData,cardData,showEnemyStats= false) {
+    callStats(economyData,cardData) {
         this.events.emit('showStats',economyData,cardData.economy,cardData.security);
         setTimeout(()=> {
             this.setState(1)
@@ -178,10 +178,11 @@ export default class Actions extends Phaser.Scene{
         if (showEnemyStats){
             this.events.emit('hideStats',this.economyData)
             const currentAction = cardEvents[gameState.currentAction].adversaryAction
-            this.cameras.main.shake(800);
+            this.cameras.main.shake(700,0.005);
             this.callStats(this.enemyEconomyData,currentAction)
             const isLegal = currentAction.isLegal?"(legal)":"(illegal)"
-            this.textBox.setTitle("Advisor on enemy action:"+isLegal)
+            gameState.playerData.answers.push(currentAction.isLegal)
+            this.textBox.setTitle("Advisor on enemy action"+isLegal+":")
             this.textBox.setText(currentAction.body)
             setTimeout(()=> {
                 this.setState(2)
@@ -217,10 +218,10 @@ export default class Actions extends Phaser.Scene{
         this.checkResScale()
         const currentTask = cardEvents[gameState.currentAction].task
         this.textBox = new TextBox(this,currentTask.title,currentTask.body)
-        this.leftCardContainer = this.buildContainer()
-        this.rightCardContainer = this.buildContainer()
-        this.leftCardContainer.name  = "left"
-        this.rightCardContainer.name  = "right"
+        this.firstCardContainer = this.buildContainer()
+        this.secondCardContainer = this.buildContainer()
+        this.firstCardContainer.name  = "first"
+        this.secondCardContainer.name  = "second"
         this.economyData = new EconomyData(this)
         this.economyData.container.setAlpha(0)
         this.enemyEconomyData = new EconomyData(this,"enemy")
@@ -232,10 +233,10 @@ export default class Actions extends Phaser.Scene{
         //TODO: rewrite name usage if more cards are needed!
         //create a list of containers and kill all but selected
         this.input.on('gameobjectdown', (pointer, gameObject) => {
-            this.leftCardContainer.getByName('texture').disableInteractive()
-            this.rightCardContainer.getByName('texture').disableInteractive()
+            this.firstCardContainer.getByName('texture').disableInteractive()
+            this.secondCardContainer.getByName('texture').disableInteractive()
             const card = gameObject.parentContainer
-            const oppositeCard = card.name === "left"?this.rightCardContainer:this.leftCardContainer
+            const oppositeCard = card.name === "first"?this.secondCardContainer:this.firstCardContainer
             this.tweens.add({
                 targets: this.textBox.container,
                 alpha: 0,
@@ -276,6 +277,7 @@ export default class Actions extends Phaser.Scene{
                             this.rotatingCard = null
                             card.setAlpha(0)
                             this.callStats(this.economyData,card.cardData)
+                            this.updateStats()
                         }
                     })
                 }
@@ -348,6 +350,8 @@ export default class Actions extends Phaser.Scene{
         }
         else{
             alert("End of Demo")
+            this.scene.start('ending')
+            this.scene.remove('actions')
         }
     }
 
@@ -359,10 +363,10 @@ export default class Actions extends Phaser.Scene{
         //const firstValue = pos.splice(Math.round(Math.random()), 1)
         const firstIndex = Math.round(Math.random())
         const secondIndex = firstIndex===0?1:0
-        this.updateCard(this.leftCardContainer,pos[firstIndex],0)
-        this.updateCard(this.rightCardContainer,pos[secondIndex],1)
-        this.events.emit('showCardContainer',this.rightCardContainer);
-        this.events.emit('showCardContainer',this.leftCardContainer);
+        this.updateCard(this.firstCardContainer,pos[firstIndex],0)
+        this.updateCard(this.secondCardContainer,pos[secondIndex],1)
+        this.events.emit('showCardContainer',this.secondCardContainer);
+        this.events.emit('showCardContainer',this.firstCardContainer);
         this.tweens.add({
             targets: this.textBox.container,
             alpha: 1,
@@ -393,13 +397,9 @@ export default class Actions extends Phaser.Scene{
 
     checkResScale(){
         this.background.setScale(window.innerWidth/1920)
-        if (window.innerWidth/1920<1){
-            normalCardScale = (window.innerWidth/1920)-0.2
-        }
-        if (window.innerWidth * window.devicePixelRatio <= 1500){
-            this.background.setScale(0.69)
-            titleStyle.fontSize = 25
-            normalTextStyle.fontSize = 21
+        normalCardScale = window.innerWidth/3000
+        if (innerWidth<=1024){
+            normalCardScale = window.innerWidth/3000 + 0.1
         }
     }
 
