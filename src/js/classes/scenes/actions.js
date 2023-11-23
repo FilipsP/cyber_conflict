@@ -13,10 +13,10 @@ const titleStyle = {
 }
 
 const normalTextStyle = {
-    fontSize: 25,
+    fontSize: 31,
     fontFamily: 'Share Tech Mono',
     color: '#D9D9D9',
-    wordWrap: { width: 400, useAdvancedWrap: true }
+    wordWrap: { width: 480, useAdvancedWrap: true }
 }
 
 let normalCardScale = 1;
@@ -40,7 +40,7 @@ export default class Actions extends Phaser.Scene{
         const height = window.innerHeight
         const card = this.add.rectangle(0,0,580,810,0x21242A)
         const title = this.add.text(0,-card.height*0.45 , "" ,titleStyle).setOrigin(0.5,0)
-        const body = this.add.text(0, card.height*0.13,"" ,normalTextStyle).setOrigin(0.5,0)
+        const body = this.add.text(0, card.height*0.122 ,"" ,normalTextStyle).setOrigin(0.5,0)
         const icon = this.add.image(0, card.y-(card.height*0.019), "").setOrigin(0.5,0.75);
         const texture = this.add.image(0, 0, 'back');
         const container = this.add.container(0, height*0.6,[card,texture,title,icon,body])

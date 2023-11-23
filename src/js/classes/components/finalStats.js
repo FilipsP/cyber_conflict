@@ -40,13 +40,11 @@ export default class FinalStats {
         this.container.setScale(window.innerWidth/2560)
     }
     setProgressVerticalBar(element){
-        console.log("bar")
         const progress = this.parent.add.image(element.x,element.y+190,"progress")
         progress.setAngle(90)
         this.cellPosition.push(progress)
     }
     setProgressHorizontalBar(element,row){
-        console.log("bar")
         const deviation = row%2 === 0?190:-190
         const progress = this.parent.add.image(element.x+deviation,element.y,"progress")
         this.cellPosition.push(progress)
