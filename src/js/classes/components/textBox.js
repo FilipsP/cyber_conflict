@@ -38,6 +38,9 @@ export default class TextBox {
 
     getScaleFactor(){
         this.scaleFactor = window.innerHeight / 4096
+        if(innerWidth<=1600){
+            this.scaleFactor+=0.03
+        }
     }
 
     handleTap(){
@@ -60,7 +63,12 @@ export default class TextBox {
         this.chars = 0
         this.textToDisplay.setText("")
         this.fullText = text
-        this.background.setScale(this.background.scaleX,1+(this.fullText.length/2000))
+        let normalWordsAmount = 2000
+        if (window.innerWidth<=1600) {
+            normalWordsAmount = 1600
+        }
+        this.background.setScale(this.background.scaleX,1+(this.fullText.length/normalWordsAmount))
+        
         this.title.y = -this.background.displayHeight*0.43
         this.textToDisplay.y = this.title.y+((this.title.displayHeight*1.35))
         if (startTimer){

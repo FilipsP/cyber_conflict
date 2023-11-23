@@ -27,11 +27,6 @@ export default class Ending extends Phaser.Scene{
         this.background.setScale(window.innerWidth/1920)
         this.textBox = new TextBox(this,endingData.title,"")
         this.textBox.setText(endingData.body)
-        if (window.innerWidth<= 1500){
-            this.background.setScale(0.69)
-            this.textBox.titleStyle.fontSize = 20
-            this.textBox.normalTextStyle.fontSize = 15
-        }
         this.input.on("pointerdown",()=> {
             this.textBox.handleTap();
         })
