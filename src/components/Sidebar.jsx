@@ -2,8 +2,17 @@ import { useState } from "react"
 import { BiMenuAltLeft } from "react-icons/bi"
 import { IoMdClose } from "react-icons/io"
 
-function Sidebar() {
+function Sidebar({ headings }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  const handleClick = (event, headingId) => {
+    event.preventDefault()
+    const element = document.getElementById(headingId)
+    if (element) {
+      element.scrollIntoView({ block: "center" })
+    }
+  }
+
   return (
     <div>
       <button
@@ -24,39 +33,18 @@ function Sidebar() {
           <IoMdClose className="text-4xl" />
         </button>
         <div className="h-full px-3 py-2 mt-10 overflow-y-auto">
-          <ul className="space-y-2 font-medium text-2xl">
-            <li>
-              <a
-                href="#"
-                className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
-              >
-                Introduction
-              </a>
-              <a
-                href="#"
-                className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
-              >
-                Introduction
-              </a>
-              <a
-                href="#"
-                className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
-              >
-                Introduction
-              </a>
-              <a
-                href="#"
-                className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
-              >
-                Introduction
-              </a>
-              <a
-                href="#"
-                className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
-              >
-                Introduction
-              </a>
-            </li>
+          <ul className="space-y-2 font-medium text-xl">
+            {headings.map((heading, index) => (
+              <li key={index}>
+                <a
+                  href={`#${heading.id}`}
+                  className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
+                  onClick={(event) => handleClick(event, heading.id)}
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </aside>
