@@ -9,14 +9,14 @@ function Sidebar({ headings }) {
     event.preventDefault()
     const element = document.getElementById(headingId)
     if (element) {
-      element.scrollIntoView({ block: "center" })
+      element.scrollIntoView({ block: "center", behavior: "smooth" })
     }
   }
 
   return (
     <div>
       <button
-        className="m-2 p-1 hover:bg-gray-600 rounded md:hidden"
+        className="m-2 p-1 hover:bg-gray-600 rounded md:hidden fixed"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <BiMenuAltLeft className="text-4xl" />
@@ -24,7 +24,7 @@ function Sidebar({ headings }) {
       <aside
         className={` transition-all duration-500 ease-in-out transform md:translate-x-0 ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed mt-16 top-0 left-0 bg-dark-bg w-64 h-screen border-t-4 border-t-gray-700`}
+        } fixed mt-16 top-0 left-0 bg-dark-bg w-64 h-screen border-t-2 border-t-gray-700`}
       >
         <button
           className="absolute top-0 right-0 p-0.5 m-2 md:hidden hover:bg-gray-600 rounded"
@@ -38,7 +38,11 @@ function Sidebar({ headings }) {
               <li key={index}>
                 <a
                   href={`#${heading.id}`}
-                  className="flex items-center rounded-lg hover:bg-gray-700 group p-2"
+                  className={`flex items-center rounded-lg hover:bg-gray-700 group p-2" ${
+                    heading.level === 1
+                      ? "flex items-center rounded-lg hover:bg-gray-700 group p-2"
+                      : "flex items-center rounded-lg hover:bg-gray-700 group p-2 ml-4 text-lg font-normal italic"
+                  }`}
                   onClick={(event) => handleClick(event, heading.id)}
                 >
                   {heading.text}

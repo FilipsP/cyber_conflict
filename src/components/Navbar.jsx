@@ -5,7 +5,7 @@ function Navbar() {
     <nav className="fixed w-full top-0 text-2xl bg-dark-bg">
       <div className="h-16 flex justify-between items-center mx-4">
         <div>Menu</div>
-        <ul className="md:flex md-justify-end md-border-0 md:mr-8 md:space-x-8">
+        <ul className="flex justify-end mr-2 md:mr-8 space-x-2 md:space-x-8">
           <Link to="/" className="transition duration-100 ease-out">
             Game
           </Link>
