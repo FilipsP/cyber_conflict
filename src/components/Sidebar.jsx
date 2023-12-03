@@ -22,7 +22,7 @@ function Sidebar({ headings }) {
         <BiMenuAltLeft className="text-4xl" />
       </button>
       <aside
-        className={` transition-all duration-500 ease-in-out transform md:translate-x-0 ${
+        className={` transition-all duration-500 ease-in-out transform md:translate-x-0 overflow-auto ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } fixed mt-16 top-0 left-0 bg-dark-bg w-64 h-screen border-t-2 border-t-gray-700`}
       >
@@ -33,7 +33,7 @@ function Sidebar({ headings }) {
           <IoMdClose className="text-4xl" />
         </button>
         <div className="h-full px-3 py-2 mt-10 overflow-y-auto">
-          <ul className="space-y-2 font-medium text-xl">
+          <ul className="space-y-2 font-medium text-xl mb-40">
             {headings.map((heading, index) => (
               <li key={index}>
                 <a
