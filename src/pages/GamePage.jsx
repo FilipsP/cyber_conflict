@@ -1,8 +1,6 @@
 function GamePage() {
   return (
-    <div>
-      <h1>Game Page</h1>
-    </div>
+    <div id="cyber-crisis-container"></div>
   )
 }
 
