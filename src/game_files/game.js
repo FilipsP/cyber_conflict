@@ -19,3 +19,4 @@ const game = new Phaser.Game({
 
 globalThis.__PHASER_GAME__ = game;
 
+export default game

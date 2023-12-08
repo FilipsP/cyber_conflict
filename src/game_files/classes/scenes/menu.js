@@ -61,7 +61,7 @@ export default class Menu extends Phaser.Scene{
             this.scene.start('explanation-of-scenario')
             this.scene.remove('menu')
         })
-        readBtn.on('pointerdown',()=>alert("Coming soon!"))
+        readBtn.on('pointerdown',()=>window.location.href = "/docs")
         sufferBtn.on('pointerdown',()=>alert("Coming soon!"))
 
         this.input.on('gameobjectover', (pointer, gameObject) =>
