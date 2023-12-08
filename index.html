@@ -6,38 +6,9 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Share+Tech+Mono">
     <title>Cyber crisis</title>
-    <style>
-      :root{
-        font-family: Share Tech Mono, sans-serif;
-        font-size: 32px ;
-      }
-      *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        overflow: hidden;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        flex-direction: column;
-      }
-      header{
-        font-weight: bold;
-        font-size: 2rem;
-        margin-top: 1em;
-      }
-      #cyber-crisis-container {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
   </head>
   <body>
-    <div id="cyber-crisis-container"></div>
-    <script type="module" src="src/game_files/game.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
