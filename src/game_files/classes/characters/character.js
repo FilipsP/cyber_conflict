@@ -1,4 +1,4 @@
-import { Assets, Container, Sprite} from "pixi.js";
+import { Assets, Container, Sprite} from "pixi.game_files";
 
 export class Character {
     constructor(who,spawnAt={x:0,y:0}) {

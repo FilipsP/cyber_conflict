@@ -28,7 +28,10 @@ export default class Ending extends Phaser.Scene{
         this.textBox = new TextBox(this,endingData.title,"")
         this.textBox.setText(endingData.body)
         this.input.on("pointerdown",()=> {
-            this.textBox.handleTap();
+            let isEnd = this.textBox.handleTap();
+            if (isEnd){
+                alert("End of the demo!\nThanks for playing!")
+            }
         })
         this.finalStats = new FinalStats(this)
     }

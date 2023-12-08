@@ -356,7 +356,6 @@ export default class Actions extends Phaser.Scene{
             this.updateCardsContent()
         }
         else{
-            alert("End of Demo")
             this.scene.start('ending')
             this.scene.remove('actions')
         }

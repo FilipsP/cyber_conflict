@@ -13,8 +13,8 @@ const game = new Phaser.Game({
         height: (window.innerHeight * window.devicePixelRatio)-100,
         autoCenter: Phaser.Scale.CENTER_BOTH,},
     backgroundColor: 0x485058,
-    scene:[Menu,ExplanationOfScenario,Actions,Ending],
-    //scene:[Actions,Ending]
+    //scene:[Menu,ExplanationOfScenario,Actions,Ending],
+    scene:[Ending]
 });
 
 globalThis.__PHASER_GAME__ = game;
