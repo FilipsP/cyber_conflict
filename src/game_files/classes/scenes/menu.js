@@ -1,19 +1,5 @@
 import Phaser from "phaser";
 
-const titleStyle = {
-    fontSize: 170,
-    fontFamily: 'Share Tech Mono',
-    strokeColor: 'white',
-    strokeThickness: 5,
-    color: '#D9D9D9',
-}
-
-const menuBtnStyle = {
-    fontSize: 130,
-    fontFamily: 'Share Tech Mono',
-    color: '#D9D9D9',
-}
-
 export default class Menu extends Phaser.Scene{
     constructor() {
         super("menu");
@@ -25,6 +11,19 @@ export default class Menu extends Phaser.Scene{
     create() {
         if (window.innerHeight>window.innerWidth){
             alert("You probably will not be able to play this as intended because of your screen ratio, sorry <3. Maybe we will create a mobile version for you some day in the future.")
+        }
+        const titleStyle = {
+            fontSize: 170,
+            fontFamily: 'Share Tech Mono',
+            strokeColor: 'white',
+            strokeThickness: 5,
+            color: '#D9D9D9',
+        }
+
+        const menuBtnStyle = {
+            fontSize: 130,
+            fontFamily: 'Share Tech Mono',
+            color: '#D9D9D9',
         }
         const bg = this.add.image(0,0,"main_menu").setOrigin(0)
         console.log("Window width: "+window.innerWidth)
